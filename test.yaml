@@ -1,0 +1,26 @@
+Train:
+  Sampling:
+    batch_size: 256
+    sample_shuffle: True
+
+  Model_Parameter:
+    d_model: 32
+    d_ff: 128
+    d_k: 128
+    d_v: 128
+    n_heads: 6
+    n_layers: 6
+    precet: 0.25
+    encoderprofile_in_dim: 5000
+    encoderprofile_hid_dim: 1024
+    encoderprofile_hid_dim2: 512
+    encoderprofile_out_dim: 128
+    device: cuda
+
+  Trainer_parameter:
+    random_seed: 888
+    epoch: 150
+    learning_rate: 0.001
+    patience: 10
+
+  output_dir: ./TrainingResult
