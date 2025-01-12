@@ -15,5 +15,5 @@ Rscript preprocess.R ./data
 2. Prepare the input files in the required format.
 3. Execute the script using the command:
 ```python
-python merge_predict.py ./config.yaml ./data/predicate_data.h5ad -o ./data/output.h5ad
+python merge_predict.py ./config.yaml ./data/predict_data.h5ad -o ./data/output.h5ad
 ```
