@@ -26,5 +26,10 @@ Rscript preprocess.R ./data
 2. Prepare the input files in the required format.
 3. Execute the script using the command:
 ```python
-python merge_predict.py ./config.yaml ./data/predict_data.h5ad -o ./data/output.h5ad
+python predict.py \
+  --config ./config.yaml \
+  --input  ./data/input.h5ad \
+  --checkpoint ./TrainingResult/Model_checkpoints/lung_best_model.pth \
+  --output ./data/BTCpredict.h5ad \
+  --label_map ./label_mapping.json
 ```
