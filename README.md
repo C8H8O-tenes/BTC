@@ -17,6 +17,7 @@ conda env create -f bystander.yml
 
 # Activate the new environment (name is defined in the YAML)
 conda activate bystander
+```
 
 1. Download the preprocessing script from the repository.
 ```R
