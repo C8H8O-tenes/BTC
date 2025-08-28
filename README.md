@@ -8,6 +8,16 @@ Pairing scRNA-seq and scTCR-seq data is required, including gene expression prof
 ![1736437749014](https://github.com/user-attachments/assets/29c5dba5-8265-4f1a-ad80-486a2b42a66f)
 
 ## Basic Usage
+## Environment setup (using `bystander.yml`)
+0. Create and activate the conda environment from the provided YAML file:
+
+```bash
+# Create environment from bystander.yml
+conda env create -f bystander.yml
+
+# Activate the new environment (name is defined in the YAML)
+conda activate bystander
+
 1. Download the preprocessing script from the repository.
 ```R
 Rscript preprocess.R ./data
