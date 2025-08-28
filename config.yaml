@@ -19,7 +19,7 @@ Train:
 
   Trainer_parameter:
     random_seed: 888
-    epoch: 150
+    epoch: 300
     learning_rate: 0.001
     patience: 10
 
