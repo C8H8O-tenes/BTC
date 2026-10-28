@@ -16,6 +16,42 @@ The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_
 
 ![BYSTER model architecture](BYSTER_framework.png)
 
+## Environment setup
+
+The environment is provided in [BTC_environment.yml](BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](requirements.txt) (pip dependencies). The recorded environment uses Python 3.10.20, Scanpy 1.10.3, and PyTorch 2.3.1 with CUDA 11.8 wheels. The Conda export contains Linux-specific package builds; use Linux or WSL2 to reproduce it.
+
+Run the following commands from the repository root in a Linux/WSL2 shell. Both installation options use the PyTorch CUDA 11.8 package index for packages pinned with `+cu118`:
+
+```bash
+export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
+```
+
+### Option 1: Conda environment
+
+The YAML file includes its pip dependencies, so a separate requirements installation is not needed:
+
+```bash
+conda env create -f BTC_environment.yml
+conda activate BTC_GNN
+```
+
+### Option 2: Install pip dependencies in a new environment
+
+```bash
+conda create -n BTC_GNN python=3.10.20 pip
+conda activate BTC_GNN
+python -m pip install -r requirements.txt
+```
+
+Choose one installation option. To open the tutorial, register the environment as a Jupyter kernel and start JupyterLab:
+
+```bash
+python -m ipykernel install --user --name BTC_GNN --display-name BTC_GNN
+jupyter lab new_dataset.ipynb
+```
+
+Select the `BTC_GNN` kernel in JupyterLab. GPU execution requires an NVIDIA GPU and a compatible driver. These files record dependency versions; installation and end-to-end execution still require validation on the target system.
+
 ## Tutorial
 
 Start with [new_dataset.ipynb](new_dataset.ipynb).
