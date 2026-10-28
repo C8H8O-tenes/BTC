@@ -18,9 +18,9 @@ The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_
 
 ## Environment setup
 
-The environment is provided in [BTC_environment.yml](BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](requirements.txt) (pip dependencies). The recorded environment uses Python 3.10.20, Scanpy 1.10.3, and PyTorch 2.3.1 with CUDA 11.8 wheels. The Conda export contains Linux-specific package builds; use Linux or WSL2 to reproduce it.
+Reference dependencies are provided in [BTC_environment.yml](BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](requirements.txt) (pip dependencies). These files capture one environment for reproducibility rather than define the only supported configuration. Other compatible versions, including newer releases that preserve the required APIs, may also be used. Choose Python, PyTorch, and CUDA versions that are mutually compatible and appropriate for your system.
 
-Run the following commands from the repository root in a Linux/WSL2 shell. Both installation options use the PyTorch CUDA 11.8 package index for packages pinned with `+cu118`:
+Run the installation commands from the repository root. The supplied files pin specific versions, and the Conda YAML includes Linux-specific builds. To use a different platform or compatible package versions, adapt a copy of the dependency file accordingly. If installing the supplied `+cu118` packages, set the additional package index below in a Linux/WSL2 shell; other PyTorch builds should use their corresponding installation source:
 
 ```bash
 export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
@@ -38,7 +38,7 @@ conda activate BTC_GNN
 ### Option 2: Install pip dependencies in a new environment
 
 ```bash
-conda create -n BTC_GNN python=3.10.20 pip
+conda create -n BTC_GNN python=3.10 pip
 conda activate BTC_GNN
 python -m pip install -r requirements.txt
 ```
