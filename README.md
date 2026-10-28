@@ -16,8 +16,6 @@ The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_
 
 ![BYSTER model architecture](BYSTER_framework.png)
 
-Additional framework views: [SVG](BYSTER_framework.svg) | [PDF](BYSTER_framework.pdf).
-
 ## Tutorial
 
 Start with [new_dataset.ipynb](new_dataset.ipynb).
