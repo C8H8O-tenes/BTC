@@ -1,6 +1,8 @@
-# BTC
+# BYSTER
 
-BTC is a framework for predicting bystander T cells from matched single-cell RNA expression and TCR annotations. The updated workflow prepares RNA and TCR inputs for graph construction and downstream model inference.
+**BYSTER: multimodal graph learning resolves bystander versus tumor-specific T cell states in the tumor immune microenvironment**
+
+BYSTER is a multimodal graph learning framework for resolving bystander versus tumor-specific T cell states from matched single-cell RNA expression and TCR annotations. The updated workflow prepares RNA and TCR inputs for graph construction and downstream model inference.
 
 ## Release status
 
@@ -12,7 +14,7 @@ The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_
 
 ## Model overview
 
-![BTC model architecture](BTC_GNN_model_architecture_v20260815.svg)
+![BYSTER model architecture](BTC_GNN_model_architecture_v20260815.svg)
 
 Additional framework views: [PNG](modelfreamwork.png) | [PDF](modelfreamwork.pdf).
 
