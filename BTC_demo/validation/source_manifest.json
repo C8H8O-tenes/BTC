@@ -1,0 +1,52 @@
+[
+  {
+    "source": "sample/creat_graph.py",
+    "target": "btc/build_graph.py",
+    "sha256": "cf1b2c529291b81a52b1541e4db3819b32a068dc17c77ba880c9402f46d656a8"
+  },
+  {
+    "source": "sample/sample_graph_input.h5ad",
+    "target": "examples/sample_graph_input.h5ad",
+    "sha256": "582dd5e4f13cd386b20cd50991343123f32198283e580144385898cfa2f801b6"
+  },
+  {
+    "source": "sample/data/DATABASE/best_finetuned_model.pt",
+    "target": "models/btc/best_finetuned_model.pt",
+    "sha256": "cff8a9013ed1db89f519886513e090d1914a56aaeca57f6074a8e9ee2cad4173"
+  },
+  {
+    "source": "sample/data/MSigDB_Hallmark_2020.gmt",
+    "target": "resources/MSigDB_Hallmark_2020.gmt",
+    "sha256": "1ffeea14ff6f746c37703fadb93e5e8cc4d9c7fde7a8763358af3214e3ef417d"
+  },
+  {
+    "source": "sample/data/segment_vocabulary.csv",
+    "target": "resources/segment_vocabulary.csv",
+    "sha256": "0dce2f4630dac553ff309827b6eecb10d16ab9dbfc72dded83fe86e34a543325"
+  },
+  {
+    "source": "sample/requirements.txt",
+    "target": "requirements.txt",
+    "sha256": "55f4523f7068bef1106f90d6da23498e92328cd61ce949a6e20566bc8dd3a9ed"
+  },
+  {
+    "source": "sample/BTC_environment.yml",
+    "target": "BTC_environment.yml",
+    "sha256": "0fe4e3d6bc3bb5c9175996e3f9b539a132669fae4f74bdfc3d5c28f511ac2341"
+  },
+  {
+    "source": "sample/data/scGPT_human/args.json",
+    "target": "models/scGPT_human/args.json",
+    "sha256": "c18e075e018140cb8b2d9029387b9de26607a5ce6a8ccabd6ead70cd76b95d60"
+  },
+  {
+    "source": "sample/data/scGPT_human/vocab.json",
+    "target": "models/scGPT_human/vocab.json",
+    "sha256": "acca93d114ca62c3f0f50debbd23e8c87f0714f4737764454f6b2b13f2e8580f"
+  },
+  {
+    "source": "sample/data/scGPT_human/best_model.pt",
+    "target": "models/scGPT_human/best_model.pt",
+    "sha256": "6cb5d451ab5c4b33eb673adbe4fddc61d2389df1b89b7651a9fe2e557572b922"
+  }
+]

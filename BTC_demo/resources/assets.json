@@ -1,0 +1,9 @@
+{
+  "models/btc/best_finetuned_model.pt": "cff8a9013ed1db89f519886513e090d1914a56aaeca57f6074a8e9ee2cad4173",
+  "models/scGPT_human/args.json": "c18e075e018140cb8b2d9029387b9de26607a5ce6a8ccabd6ead70cd76b95d60",
+  "models/scGPT_human/vocab.json": "acca93d114ca62c3f0f50debbd23e8c87f0714f4737764454f6b2b13f2e8580f",
+  "models/scGPT_human/best_model.pt": "6cb5d451ab5c4b33eb673adbe4fddc61d2389df1b89b7651a9fe2e557572b922",
+  "resources/MSigDB_Hallmark_2020.gmt": "1ffeea14ff6f746c37703fadb93e5e8cc4d9c7fde7a8763358af3214e3ef417d",
+  "resources/segment_vocabulary.csv": "0dce2f4630dac553ff309827b6eecb10d16ab9dbfc72dded83fe86e34a543325",
+  "examples/sample_graph_input.h5ad": "582dd5e4f13cd386b20cd50991343123f32198283e580144385898cfa2f801b6"
+}
