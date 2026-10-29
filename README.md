@@ -4,14 +4,6 @@
 
 BYSTER is a multimodal graph learning framework for resolving bystander versus tumor-specific T cell states from matched single-cell RNA expression and TCR annotations. The updated workflow prepares RNA and TCR inputs for graph construction and downstream model inference.
 
-## Release status
-
-This repository is being updated to the new graph-based workflow. The previous implementation is no longer maintained and is incompatible with the updated model.
-
-The current public tutorial covers input preparation and documents graph construction. A complete runnable release requires the matching graph-building scripts, model code, checkpoints, and a validated environment. These should not be substituted with files from the previous implementation.
-
-The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_finetune.ipynb`, and legacy prediction scripts are not validated instructions for the updated workflow.
-
 ## Model overview
 
 ![BYSTER model architecture](readme/BYSTER_framework.png)
@@ -68,8 +60,6 @@ The tutorial includes:
 
 **If you start from 10x files:** first run the optional preparation section, then return to the input-preview cell. The preview expects `sample/sample_graph_input.h5ad` to exist.
 
-Graph construction requires `creat_pretrain_graph.py` and its matching environment. This script is referenced by the tutorial but is not currently available in the inspected public directories. The tutorial does not yet include a complete checkpoint-to-prediction example.
-
 ## Input requirements
 
 Provide an AnnData (`.h5ad`) file in which each row represents one cell. RNA expression and TCR annotations must refer to the same cell.
@@ -100,10 +90,6 @@ Use matched files from the same cell library:
 | `features.tsv.gz` | RNA feature annotations |
 | `matrix.mtx.gz` | RNA count matrix |
 | `filtered_contig_annotations.csv.gz` | TCR contig annotations |
-
-The tutorial matches RNA and TCR data by barcode, selects productive high-confidence TRA/TRB contigs, and chooses the highest-UMI contig per chain, with reads and contig ID used to resolve ties.
-
-The example thresholds are at least 200 detected genes and at most 20% mitochondrial counts. Adjust these to your dataset. Mitochondrial detection assumes human gene symbols beginning with `MT-`.
 
 The preparation example writes:
 
