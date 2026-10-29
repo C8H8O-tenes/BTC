@@ -1,4 +1,4 @@
-"""MetaTCR inference and explicit many-cells-to-one-MetaTCR mapping."""
+"""BTC inference for MetaTCRs and mapping of predictions to cells."""
 from pathlib import Path
 import numpy as np
 import pandas as pd

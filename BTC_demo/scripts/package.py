@@ -1,4 +1,4 @@
-"""Create a portable full archive; include assets, exclude results and caches."""
+"""Package code, models, resources and example data into BTC_demo_full.zip."""
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 

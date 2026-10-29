@@ -1,4 +1,4 @@
-"""Inference architecture copied unchanged from database_label_finetune/finetune_core.py."""
+"""BTC inference architecture. Source: database_label_finetune/finetune_core.py."""
 import torch
 from torch import nn
 from torch.nn import functional as F

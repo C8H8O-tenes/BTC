@@ -2,7 +2,7 @@
 
 **BYSTER: multimodal graph learning resolves bystander versus tumor-specific T cell states in the tumor immune microenvironment**
 
-BYSTER is a multimodal graph learning framework for resolving bystander versus tumor-specific T cell states from matched single-cell RNA expression and TCR annotations. The updated workflow prepares RNA and TCR inputs for graph construction and downstream model inference.
+BYSTER is a multimodal graph learning framework for resolving bystander versus tumor-specific T cell states from matched single-cell RNA expression and TCR annotations. The workflow constructs heterogeneous graphs, predicts MetaTCR states using a pretrained model, and maps the predictions back to individual cells.
 
 ## Model overview
 
@@ -10,9 +10,9 @@ BYSTER is a multimodal graph learning framework for resolving bystander versus t
 
 ## Environment setup
 
-Reference dependencies are provided in [BTC_environment.yml](readme/BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](readme/requirements.txt) (pip dependencies). These files capture one environment for reproducibility rather than define the only supported configuration. Other compatible versions, including newer releases that preserve the required APIs, may also be used. Choose Python, PyTorch, and CUDA versions that are mutually compatible and appropriate for your system.
+Reference dependencies are provided in [BTC_environment.yml](readme/BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](readme/requirements.txt) (pip dependencies). Compatible versions, including newer releases that preserve the required APIs, may also be used. Choose Python, PyTorch, and CUDA versions appropriate for your system.
 
-Run the installation commands from the repository root. The supplied files pin specific versions, and the Conda YAML includes Linux-specific builds. To use a different platform or compatible package versions, adapt a copy of the dependency file accordingly. If installing the supplied `+cu118` packages, set the additional package index below in a Linux/WSL2 shell; other PyTorch builds should use their corresponding installation source:
+Run the installation commands from the repository root. The Conda YAML records Linux package builds; adapt the dependency files for your platform as needed. For the supplied `+cu118` packages, set the additional package index in a Linux/WSL2 shell:
 
 ```bash
 export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
@@ -20,7 +20,7 @@ export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
 
 ### Option 1: Conda environment
 
-The YAML file includes its pip dependencies, so a separate requirements installation is not needed:
+Create the environment with its Conda and pip dependencies:
 
 ```bash
 conda env create -f readme/BTC_environment.yml
@@ -39,26 +39,56 @@ Choose one installation option. To open the tutorial, register the environment a
 
 ```bash
 python -m ipykernel install --user --name BTC_GNN --display-name BTC_GNN
-jupyter lab new_dataset.ipynb
+jupyter lab BTC_demo/notebooks/quickstart.ipynb
 ```
 
-Select the `BTC_GNN` kernel in JupyterLab. GPU execution requires an NVIDIA GPU and a compatible driver. These files record dependency versions; installation and end-to-end execution still require validation on the target system.
+Select the `BTC_GNN` kernel in JupyterLab.
 
 ## Tutorial
 
-Start with [new_dataset.ipynb](new_dataset.ipynb).
+Start with [quickstart.ipynb](BTC_demo/notebooks/quickstart.ipynb) for graph construction and model inference. For matched 10x RNA and TCR files, see [prepare_10x.ipynb](BTC_demo/notebooks/prepare_10x.ipynb). The input preparation tutorial is also available in [new_dataset.ipynb](new_dataset.ipynb).
 
 The tutorial includes:
 
-- The AnnData input schema for matched RNA expression and TCR annotations.
-- An illustrative cell metadata table.
-- A graph-construction command for the matching implementation.
-- An optional conversion example for matched 10x RNA and TCR files.
-- RNA quality filtering, TCR chain selection, audit outputs, and H5AD read-back checks.
+- Input requirements for matched RNA expression and TCR annotations.
+- An example H5AD dataset for running the workflow.
+- Graph construction using scGPT, SEACells, Hallmark scores, and SCEPTR.
+- Model inference and mapping of MetaTCR predictions to cells.
+- Optional preparation of matched RNA and TCR inputs from 10x files.
 
-**If you already have a compatible H5AD file:** follow the input specification and inspect your data in the input-preview cell.
+## Quick start
 
-**If you start from 10x files:** first run the optional preparation section, then return to the input-preview cell. The preview expects `sample/sample_graph_input.h5ad` to exist.
+Run the following commands from the repository root after activating the environment.
+
+### 1. Construct graphs
+
+```bash
+cd BTC_demo
+python creat_graph.py examples/sample_graph_input.h5ad --output-dir graphs --target-size 50 --device cuda:0
+```
+
+### 2. Run prediction
+
+```bash
+python byster.py --graph-dir graphs --output-dir predictions --device cuda:0
+```
+
+Graph construction and prediction run separately. Reuse existing graphs for subsequent prediction runs and choose new or empty output directories. Both scripts accept `--device cpu`; omitting `--device` selects an available CUDA device or CPU automatically.
+
+The default checkpoint is `models/btc/best_finetuned_model.pt` within `BTC_demo`. Use `--checkpoint` to select another checkpoint with the matching model architecture and graph schema.
+
+### Prediction outputs
+
+Results are written to `BTC_demo/predictions/`:
+
+| File | Content |
+|---|---|
+| `metatcr_predictions.csv` | MetaTCR annotations, logits, probabilities, and predicted labels. |
+| `cell_predictions.csv` | Cell IDs, sample and patient IDs, MetaTCR assignments, and mapped predictions. |
+| `qc_summary.json` | Execution status, graph and prediction counts, threshold, and checkpoint information. |
+| `run_config.json` | Prediction parameters and paths. |
+
+`probability` represents the model-predicted probability of the tumor-specific class. By default, probabilities ≥ 0.5 are labeled `tumor-specific`; lower values are labeled `bystander`. Adjust the threshold with `--threshold`. Cells assigned to the same MetaTCR inherit the same probability and label.
 
 ## Input requirements
 
@@ -74,15 +104,26 @@ Provide an AnnData (`.h5ad`) file in which each row represents one cell. RNA exp
 | `adata.obs['cdr3_aa_a']` | TRA CDR3 amino-acid sequence, when available. |
 | `adata.obs['cdr3_aa_b']` | TRB CDR3 amino-acid sequence, when available. |
 
-At least one CDR3 column is required. Under `--tcr-mode any`, each retained cell must have at least one nonmissing TRA or TRB CDR3 sequence. Under `--tcr-mode paired`, both chains are required. Do not invent sequences to fill missing chains.
+Provide at least one CDR3 column. `--tcr-mode any` retains cells with at least one available TRA or TRB CDR3 sequence; `--tcr-mode paired` retains cells with both chains.
 
 Optional TCR gene annotations are `v_gene_a`, `j_gene_a`, `v_gene_b`, `d_gene_b`, and `j_gene_b`. Preserve valid annotations when available because they inform TCR encoding.
 
-Apply cell-quality filtering before export and retain unnormalized RNA counts. Experimental labels are not required for inference in the documented workflow.
+Apply cell-quality filtering before export and retain unnormalized RNA counts.
+
+### Run on your own data
+
+From the `BTC_demo` directory:
+
+```bash
+python creat_graph.py /path/to/my_data.h5ad --output-dir my_graphs --device cuda:0
+python byster.py --graph-dir my_graphs --output-dir my_predictions --device cuda:0
+```
+
+For all available options, run `python creat_graph.py --help` and `python byster.py --help`.
 
 ## Optional preparation from 10x files
 
-Use matched files from the same cell library:
+Follow [prepare_10x.ipynb](BTC_demo/notebooks/prepare_10x.ipynb) using matched files from the same cell library:
 
 | File | Content |
 |---|---|
@@ -104,4 +145,4 @@ Rerunning the example replaces outputs with the same names. Rebuild graphs whene
 
 ## Issues
 
-For questions or reproducibility problems, open an [issue](https://github.com/C8H8O-tenes/BTC/issues) and include the commit or release, environment details, command, and error message. Do not include private patient data.
+For questions or reproducibility problems, open an [issue](https://github.com/C8H8O-tenes/BTC/issues) and include the commit or release, environment details, command, and error message.

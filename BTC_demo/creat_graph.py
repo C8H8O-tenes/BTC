@@ -56,7 +56,7 @@ def parse_args():
     parser.add_argument("--counts-layer",default="auto",help="auto: counts layer or X; X: use X; otherwise layer name")
     parser.add_argument("--sample-col", default=None, help="Default: sample_id, then biosample_id")
     parser.add_argument("--patient-col", default=None, help="Default: patient_id, patient, then donor_id")
-    parser.add_argument("--tcr-mode", choices=["any", "paired"], default="any", help="any matches the notebook: retain either chain")
+    parser.add_argument("--tcr-mode", choices=["any", "paired"], default="any", help="any: retain at least one chain; paired: require both chains")
     parser.add_argument("--target-size", type=int, default=50)
     parser.add_argument("--knn", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=1024)
@@ -128,8 +128,8 @@ def read_input(args):
     if not np.isfinite(data.X.data).all() or (data.X.data < 0).any():
         raise ValueError("Counts must be finite and nonnegative")
     if not np.allclose(data.X.data, np.round(data.X.data), atol=1e-6, rtol=0):
-        raise ValueError("Expected raw integer RNA counts, not normalized expression")
-    # Store conventional object columns; avoid nullable-string h5ad compatibility issues.
+        raise ValueError("Expected raw integer RNA counts")
+    # Store metadata as object columns for H5AD serialization.
     for col in aliases:
         data.obs[col] = (
             data.obs[col].astype(object).where(data.obs[col].notna(), np.nan)
@@ -182,7 +182,7 @@ def make_metacells(data, args):
                 )
                 print(f"{sample}: constructing SEACells kernel", flush=True)
                 model.construct_kernel_matrix()
-                print(f"{sample}: initializing {requested} SEACells archetypes (may take several minutes)", flush=True)
+                print(f"{sample}: initializing {requested} SEACells archetypes", flush=True)
                 model.initialize_archetypes()
                 try:
                     print(f"{sample}: fitting SEACells", flush=True)
