@@ -14,11 +14,11 @@ The existing `bystander.yml`, `config.yaml`, `preview_pretrain.ipynb`, `preview_
 
 ## Model overview
 
-![BYSTER model architecture](BYSTER_framework.png)
+![BYSTER model architecture](readme/BYSTER_framework.png)
 
 ## Environment setup
 
-Reference dependencies are provided in [BTC_environment.yml](BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](requirements.txt) (pip dependencies). These files capture one environment for reproducibility rather than define the only supported configuration. Other compatible versions, including newer releases that preserve the required APIs, may also be used. Choose Python, PyTorch, and CUDA versions that are mutually compatible and appropriate for your system.
+Reference dependencies are provided in [BTC_environment.yml](readme/BTC_environment.yml) (Conda environment and pip dependencies) and [requirements.txt](readme/requirements.txt) (pip dependencies). These files capture one environment for reproducibility rather than define the only supported configuration. Other compatible versions, including newer releases that preserve the required APIs, may also be used. Choose Python, PyTorch, and CUDA versions that are mutually compatible and appropriate for your system.
 
 Run the installation commands from the repository root. The supplied files pin specific versions, and the Conda YAML includes Linux-specific builds. To use a different platform or compatible package versions, adapt a copy of the dependency file accordingly. If installing the supplied `+cu118` packages, set the additional package index below in a Linux/WSL2 shell; other PyTorch builds should use their corresponding installation source:
 
@@ -31,7 +31,7 @@ export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
 The YAML file includes its pip dependencies, so a separate requirements installation is not needed:
 
 ```bash
-conda env create -f BTC_environment.yml
+conda env create -f readme/BTC_environment.yml
 conda activate BTC_GNN
 ```
 
@@ -40,7 +40,7 @@ conda activate BTC_GNN
 ```bash
 conda create -n BTC_GNN python=3.10 pip
 conda activate BTC_GNN
-python -m pip install -r requirements.txt
+python -m pip install -r readme/requirements.txt
 ```
 
 Choose one installation option. To open the tutorial, register the environment as a Jupyter kernel and start JupyterLab:
