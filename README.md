@@ -39,10 +39,11 @@ Choose one installation option. To open the tutorial, register the environment a
 
 ```bash
 python -m ipykernel install --user --name BTC_GNN --display-name BTC_GNN
-jupyter lab BTC_demo/notebooks/quickstart.ipynb
+cd BTC_demo/notebooks
+jupyter lab quickstart.ipynb
 ```
 
-Select the `BTC_GNN` kernel in JupyterLab.
+Run both notebooks from `BTC_demo/notebooks`. Open `quickstart.ipynb` for graph construction and prediction, or `prepare_10x.ipynb` for input preparation. Select the `BTC_GNN` kernel in JupyterLab.
 
 ## Tutorial
 
@@ -58,7 +59,7 @@ The tutorial includes:
 
 ## Quick start
 
-Run the following commands from the repository root after activating the environment.
+From the repository root, enter `BTC_demo` and run both steps below in that directory after activating the environment.
 
 ### 1. Construct graphs
 
@@ -96,7 +97,7 @@ Provide an AnnData (`.h5ad`) file in which each row represents one cell. RNA exp
 
 | Location | Requirement |
 |---|---|
-| `adata.layers['counts']` or `adata.X` | Nonnegative raw RNA counts, cells × genes. The documented loader uses `layers['counts']` when present, otherwise `X`. |
+| `adata.layers['counts']` or `adata.X` | Nonnegative raw integer RNA counts, cells × genes. The loader uses `layers['counts']` when present, otherwise `X`. |
 | `adata.var_names` | Unique gene symbols. |
 | `adata.obs_names` | Unique cell IDs. Use sample prefixes when combining samples. |
 | `adata.obs['patient_id']` | Nonmissing patient or donor ID. |
@@ -132,7 +133,7 @@ Follow [prepare_10x.ipynb](BTC_demo/notebooks/prepare_10x.ipynb) using matched f
 | `matrix.mtx.gz` | RNA count matrix |
 | `filtered_contig_annotations.csv.gz` | TCR contig annotations |
 
-The preparation example writes:
+The preparation notebook writes the following files to `BTC_demo/outputs/prepared/`:
 
 | Output | Content |
 |---|---|
@@ -140,6 +141,13 @@ The preparation example writes:
 | `{SAMPLE_ID}_rna_tcr_all.h5ad` | All input RNA cells with matched TCR annotations and QC flags |
 | `{SAMPLE_ID}_contig_audit.csv.gz` | Contig selection audit |
 | `{SAMPLE_ID}_pairing_qc.json` | Pairing and filtering summary |
+
+After preparation, run the following commands from the `BTC_demo` directory:
+
+```bash
+python creat_graph.py outputs/prepared/sample_graph_input.h5ad --output-dir my_graphs --device cuda:0
+python byster.py --graph-dir my_graphs --output-dir my_predictions --device cuda:0
+```
 
 Rerunning the example replaces outputs with the same names. Rebuild graphs whenever the input cells change.
 

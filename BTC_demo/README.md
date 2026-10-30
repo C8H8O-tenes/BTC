@@ -4,14 +4,44 @@ Run the demo in the configured BTC environment using matched single-cell RNA cou
 
 ## Environment
 
-Reference dependencies are provided in [BTC_environment.yml](BTC_environment.yml) and [requirements.txt](requirements.txt). See the [environment setup instructions](../README.md#environment-setup) for installation from the repository root.
+Run the following commands from the `BTC_demo` directory. Reference dependencies are provided in [BTC_environment.yml](BTC_environment.yml) and [requirements.txt](requirements.txt). Choose one installation option.
+
+### Option 1: Conda environment
+
+```bash
+export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
+conda env create -f BTC_environment.yml
+conda activate BTC_GNN
+```
+
+### Option 2: Install pip dependencies in a new environment
+
+```bash
+export PIP_EXTRA_INDEX_URL=https://download.pytorch.org/whl/cu118
+conda create -n BTC_GNN python=3.10 pip
+conda activate BTC_GNN
+python -m pip install -r requirements.txt
+```
+
+The additional package index above supplies the pinned `+cu118` packages. The shell commands and Conda package builds target Linux/WSL2. Compatible Python, PyTorch, and CUDA versions may also be used with the corresponding dependencies and installation source.
+
+### Open the notebooks
+
+From the `BTC_demo` directory:
+
+```bash
+python -m ipykernel install --user --name BTC_GNN --display-name BTC_GNN
+cd notebooks
+jupyter lab quickstart.ipynb
+```
+
+Run both notebooks from `BTC_demo/notebooks` and select the `BTC_GNN` kernel. Open `quickstart.ipynb` for graph construction and prediction, or `prepare_10x.ipynb` for input preparation.
 
 ## 1. Construct graphs with creat_graph.py
 
-From the repository root:
+Run the following commands from the `BTC_demo` directory after activating the environment:
 
 ```bash
-cd BTC_demo
 python creat_graph.py examples/sample_graph_input.h5ad --output-dir graphs --target-size 50 --device cuda:0
 ```
 
